@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <head jsf:id="head">
+        <f:metadata>
+            <f:viewParam name="usuarioId" value="#{usuarioController.usuario}">
+            </f:viewParam>
+            <f:viewAction action="#{usuarioController.prepararEdicao}"/>
+        </f:metadata>
+    	<meta charset="UTF-8" />
+    	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    	<meta content="width=device-width, initial-scale=1" name="viewport" />
+    	<link href="resources/css/bootstrap.css" rel="stylesheet" />
+        <title>[SIAPMED] Realizar Agendamento</title>
+    </head>
+    <body>
+	<nav class="navbar navbar-default navbar-fixed-top"
+             style="min-height: 75px" xmlns:jsf="http://xmlns.jcp.org/jsf"
+             xmlns="http://www.w3.org/1999/xhtml">
+            <div class="container">
+                <div class="navbar-header">
+                    <form jsf:prependId="false">
+                        <button aria-expanded="false" class="navbar-toggle collapsed" 
+                                data-target="#navbar-collapse" data-toggle="collapse"
+                                type="button">
+                        <span class="sr-only">Navegação</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        </button>
+                        
+                    </form>
+                    
+                    <a class="header-link navbar-brand " jsf:outcome="index">
+                        <img alt="Brand" src="resources/images/SIAPMED.png"
+                             style="margin-top: -8px" />
+                    </a>
+                    
+                </div>
+            </div>
+        </nav>
+        <div class="alert alert-dismissible alert-success"
+             jsf:rendered="#{not empty facesContext.messageList}" role="alert"
+             style="margin-top: 75px">
+            <div class="container">
+                <button aria-label="Close" class="close" data-dismiss="alert"
+                        type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h:messages layout="table" />
+            </div>
+        </div>
+       
+        <div class="container" style="margin-top: 75px">
+            <h2>                
+                <h1 >Editar Usuario</h1>
+            </h2>
+            <hr />
+             <div class="form-horizontal">
+                <form class="form-horizontal" id="campos" jsf:prependId="false"> 
+                <div class="form-group">
+                    <label for="nome" class="col-sm-2 control-label">Nome</label>
+                    <div class="col-sm-10">
+                         <input type="text" class="form-control" placeholder="Nome"
+                           jsf:value="#{usuarioController.usuario.nome}"/>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="cpf" class="col-sm-2 control-label">CPF</label>
+                    <div class="col-sm-10">
+                         <input type="text" class="form-control" placeholder="Cpf"
+                           jsf:value="#{usuarioController.usuario.cpf}"/>
+                    </div>
+                 </div>
+                  <div class="form-group">
+                    <label for="senha" class="col-sm-2 control-label">Senha</label>
+                    <div class="col-sm-10">
+                         <input type="text" class="form-control" placeholder="Senha"
+                           jsf:value="#{usuarioController.usuario.senha}"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="telefone" class="col-sm-2 control-label">Telefone</label>
+                    <div class="col-sm-10">
+                         <input type="text" class="form-control" placeholder="Telefone"
+                           jsf:value="#{usuarioController.usuario.telefone}"/>
+                    </div>
+                  </div>
+                
+                <div class="form-group">
+                <label for="Sexo" class="col-sm-2 control-label">Sexo</label>
+                    <div class="col-sm-10">
+
+                        <select class="form-control"
+                                jsf:value="#{usuarioController.usuario.sexo}"
+                                id="sexo" size="1"> 
+                                <f:selectItem itemLabel="Selecione o sexo"/>
+                                <f:selectItems value="#{enumController.sexos}"
+                                               itemValue="#{sexo}"
+                                               var="sexo"
+                                               itemLabel="#{sexo.nome}"/>
+                        </select>
+
+                 </div>  
+                </div>
+                 <div class="form-group">
+                <label for="Apelido" class="col-sm-2 control-label">Apelido</label>
+                 <div class="col-sm-10" jsf:id="apelido">
+                
+                <ui:repeat value="#{usuarioController.apelidos}" 
+                           var="apelido" varStatus="x">
+                    <div class="form-group" jsf:id="apelidos">
+                        <div class="col-sm-10">                                               
+                        <input type="text" 
+                               class="form-control"
+                               placeholder="Apelido"
+                               jsf:value="#{apelido.nome}"/>
+                        </div>
+                       <div class="col-sm-2">
+                           <span >
+                        <button type="button" 
+                                jsf:action="#{usuarioController.adicionarApelido(x.index + 1)}"
+                                class="btn btn-info btn-md"
+                                name="Adicionar">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            <f:ajax execute="apelido"
+                                    render="apelido">
+                            </f:ajax>
+                            <f:param value="true"
+                                     name="validation">
+                                
+                            </f:param>
+                        </button>
+                           </span>
+                           <span>
+                         <button type="button"
+                                 jsf:action="#{usuarioController.removerApelido(apelido)}"
+                                 jsf:required="#{!param.validation}"
+                                 jsf:disabled="#{usuarioController.apelidos.size() == 1}"
+                                 class="btn btn-info btn-md"
+                                 required="#{!param.validation}"
+                                name="Remover">
+                             <f:ajax execute="apelido"
+                                    render="apelido">
+                                         
+                             </f:ajax>
+                             <f:param value="true"
+                                 name="validation">
+                                          
+                             </f:param>
+                             <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>                                                                 
+                         </button>
+                         </span>
+                           
+                       </div>
+                    </div>
+                </ui:repeat>
+               
+                </div>
+                 </div>
+                
+               <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" 
+                        jsf:action="#{usuarioController.editar}"
+                        class="btn btn-primary btn-md">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Salvar Edição
+                     
+                </button>
+                </div>
+               </div>
+                 </form>
+             </div>
+        </div>
+
+    	<div class="container" style="padding: 50px 0">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <div class="control-group pull-right"
+                            style="margin-top: -15px">
+                            <img
+                                alt="Secretaria de Planejamento, Orçamento e Gestão"
+                                class="img-responsive"
+                                src="resources/images/SEPLAG.png" width="405" />
+                        </div>
+                    </ul>
+                </div>
+            </div>
+    	</div>
+    	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.min.js"
+                />
+    	<script
+            src="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.js" />
+    </body>
+</html>

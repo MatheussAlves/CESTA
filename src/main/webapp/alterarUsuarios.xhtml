@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <head jsf:id="head">
+    	<meta charset="UTF-8" />
+    	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    	<meta content="width=device-width, initial-scale=1" name="viewport" />
+    	<link href="resources/css/bootstrap.css" rel="stylesheet" />
+    	<link href="resources/css/estilo.css" rel="stylesheet" />
+        <title>[SIAPMED] Realizar Agendamento</title>
+    </head>
+    <body>
+	<nav class="navbar navbar-default navbar-fixed-top"
+             style="min-height: 75px" xmlns:jsf="http://xmlns.jcp.org/jsf"
+             xmlns="http://www.w3.org/1999/xhtml">
+            <div class="container">
+                <div class="navbar-header">
+                    <form jsf:prependId="false">
+                        <button aria-expanded="false" class="navbar-toggle collapsed" 
+                                data-target="#navbar-collapse" data-toggle="collapse"
+                                type="button">
+                        <span class="sr-only">Navegação</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        </button>
+                    </form>
+                    <a class="header-link navbar-brand" jsf:outcome="index">
+                        <img alt="Brand" src="resources/images/SIAPMED.png"
+                             style="margin-top: -8px" />
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="alert alert-dismissible alert-success"
+             jsf:rendered="#{not empty facesContext.messageList}" role="alert"
+             style="margin-top: 75px">
+            <div class="container">
+                <button aria-label="Close" class="close" data-dismiss="alert"
+                        type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h:messages layout="table" />
+            </div>
+        </div>
+        <div jsf:id="usuarios" class="container" style="margin-top: 75px">
+            <h1>Listagem e Alteração de Usuarios</h1>
+            <hr />
+            <div id="list" class="row">
+                <div class="table-responsive col-md-12">
+                    <table class="table table-striped" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Telefone</th>
+                                <th>Sexo</th>
+                                <th class="actions">Ações</th>
+                            </tr>
+                        </thead>
+                        <ui:repeat value="#{usuarioController.usuarios}"
+                                   var="usuario" varStatus="x">
+                        <tbody>
+                            <tr>
+                                <td>#{usuario.nome}</td>
+                                <td>#{usuario.cpf}</td>
+                                <td>#{usuario.telefone}</td>
+                                <td>#{usuario.sexo}</td>
+                                <td class="actions">
+                                    <form jsf:prependId="false">
+                                    <a class="btn btn-success btn-sx" jsf:outcome="index">
+                                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                    Editar</a> 
+                                    <span>
+                                    <a class="btn btn-primary btn-sx" jsf:action="#{usuarioController.remover(usuario)}">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                        <f:ajax execute="usuarios" render="usuarios"></f:ajax>
+                                    </a>
+                                    </span>
+                                    </form>
+                                </td>
+                            </tr>
+                            
+                        </tbody>                                               
+                        </ui:repeat>
+
+                        
+                    </table>
+                </div>
+                
+            </div>
+            
+        </div>
+    	<div class="container" style="padding: 50px 0">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <div class="control-group pull-right"
+                            style="margin-top: -15px">
+                            <img
+                                alt="Secretaria de Planejamento, Orçamento e Gestão"
+                                class="img-responsive"
+                                src="resources/images/SEPLAG.png" width="405" />
+                        </div>
+                    </ul>
+                </div>
+            </div>
+    	</div>
+    	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.min.js"
+                />
+    	<script
+            src="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.js" />
+    </body>
+</html>
